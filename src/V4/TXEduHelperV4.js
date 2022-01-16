@@ -78,28 +78,61 @@ void($body.appendChild($title));
 
 LOG("云脚本加载成功! ");
 
+var btnType;    //1为签到, 2为答题
+// let helper = setInterval(function() {
+//     //小助手脚本主体
+//     if(config.autoSignInEnabled) {
+//         //自动签到
+//         signInBtn = document.getElementsByClassName("s-btn--m")[0];
+//         signInSubmitBtn = document.getElementsByClassName("s-btn s-btn--primary s-btn--m")[0];
+//         if(signInBtn && signInBtn.innerText == "签到") {
+//             signInBtn.click();
+//             setTimeout("signInSubmitBtn.click()", 200); //点击确定
+//             LOG("签到成功! ");
+//             //TOAST("签到成功! ");
+//         }
+//     }
+//     if(config.autoAnswerEnabled) {
+//         //自动作答选择题
+//         whichBtn = config.defaultAnswer.charCodeAt() - 65;  //0-5分别对应ABCDEF
+//         if(whichBtn < 0 || whichBtn > 5) {
+//             //输入非法自动设为A
+//             whichBtn = 0;
+//         }
+//         choiceBtn = document.getElementsByClassName("s-f-rc-item")[whichBtn];
+//         setTimeout('choiceSubmitBtn.click()', 200);
+//     }
+// }, config.scanInternal);
+
+
 let helper = setInterval(function() {
     //小助手脚本主体
-    if(config.autoSignInEnabled) {
-        //自动签到
-        signInBtn = document.getElementsByClassName("s-btn--m")[0];
-        signInSubmitBtn = document.getElementsByClassName("s-btn s-btn--primary s-btn--m")[0];
-        if(signInBtn && signInBtn.innerText == "签到") {
-            signInBtn.click();
-            setTimeout("signInSubmitBtn.click()", 200); //点击确定
-            LOG("签到成功! ");
-            //TOAST("签到成功! ");
+    signInBtn = document.getElementsByClassName("s-btn--m")[0];
+    if(signInBtn) {
+        if(signInBtn.innerText == "签到") {
+            //检测到签到
+            if(config.autoSignInEnabled == true) {
+                signInBtn.click();
+                setTimeout("signInSubmitBtn.click()", 200); //点击确定
+                LOG("签到成功! ");
+            } else {
+                LOG("老师发起了一次签到, 需要由用户操作.");
+            }
+        } else {
+            //检测到选择题
+            if(config.autoAnswerEnabled == true) {
+                whichBtn = config.defaultAnswer.charCodeAt() - 65;  //0-5分别对应ABCDEF
+                if(whichBtn < 0 || whichBtn > 5) {
+                    //输入非法自动设为A
+                    whichBtn = 0;
+                }
+                choiceBtn = document.getElementsByClassName("s-f-rc-item")[whichBtn];
+                setTimeout('choiceSubmitBtn.click()', 200);
+                LOG("选择题自动作答成功! 选项: " + config.defaultAnswer);
+            } else {
+                LOG("老师发起了一次答题, 需要由用户操作.");
+            }
         }
-    }
-    if(config.autoAnswerEnabled) {
-        //自动作答选择题
-        whichBtn = config.defaultAnswer.charCodeAt() - 65;  //0-5分别对应ABCDEF
-        if(whichBtn < 0 || whichBtn > 5) {
-            //输入非法自动设为A
-            whichBtn = 0;
-        }
-        choiceBtn = document.getElementsByClassName("s-f-rc-item")[whichBtn];
-        setTimeout('choiceSubmitBtn.click()', 200);
-    }
+    } 
 }, config.scanInternal);
 
