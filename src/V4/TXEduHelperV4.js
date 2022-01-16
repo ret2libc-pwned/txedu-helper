@@ -3,7 +3,7 @@
  * @description TXEduHelper V4主程序代码, 放在服务器端供调用
  */
 
-const TXEDU_HELPER_VERSION = 4.0;
+const TXEDU_HELPER_VERSION = "4.0.0";
 const ASCII_ART = '';
 
 //相关配置
@@ -39,17 +39,17 @@ function about() {
     );
 }
 
-function TOAST(str) {
-    /**
-     * @description 显示一条toast
-     * 
-     */
-    var str;
-    mdui.snackbar({
-        message: 'TXEduHelper: ' + str,
-        position: 'right-bottom',
-    });
-}
+// function TOAST(str) {
+//     /**
+//      * @description 显示一条toast
+//      * 
+//      */
+//     var str;
+//     mdui.snackbar({
+//         message: 'TXEduHelper: ' + str,
+//         position: 'right-bottom',
+//     });
+// }
 
 function sendMsg(str) {
     /**
@@ -76,7 +76,7 @@ $title.innerText = 'TXEduHelper Core V4';
 $title.style = 'position:absolute;top:21px;left:222px;color:#33FF66;border-radius:10px;cursor:pointer;z-index:3000';
 void($body.appendChild($title));
 
-TOAST("云脚本加载成功! ");
+LOG("云脚本加载成功! ");
 
 let helper = setInterval(function() {
     //小助手脚本主体
@@ -88,7 +88,7 @@ let helper = setInterval(function() {
             signInBtn.click();
             setTimeout("signInSubmitBtn.click()", 200); //点击确定
             LOG("签到成功! ");
-            TOAST("签到成功! ");
+            //TOAST("签到成功! ");
         }
     }
     if(config.autoAnswerEnabled) {

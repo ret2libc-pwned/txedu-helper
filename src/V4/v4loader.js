@@ -2,7 +2,7 @@
  * @author ret2libc-pwned
  * @description TXEduHelperV4加载器, 用来加载脚本及依赖库以及读入配置
  */
-const LOADER_VERSION = 4.0;
+const LOADER_VERSION = "4.0.0";
 const ACCESS_TOKEN = 'y^e7k8BU3PtMYyHH@kVJR*k^^Zff&*Yk';                    //使用云脚本的token
 const QQ_GROUP = '902447358';                                              //群号
 const COOKIE_PREFIX = "T_HELPER_";                                          //cookie前缀
@@ -80,6 +80,8 @@ function showConfig() {
      * @description 显示当前配置
      */
     alert(
+        "TXEduHelper配置系统\n" + 
+        LINE + "\n" +
         "当前配置: " + config.name + "\n" +
         LINE + "\n" +
         "启用自动答题: " + config.autoAnswerEnabled + "\n" +
