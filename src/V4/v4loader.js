@@ -4,14 +4,14 @@
  */
 const LOADER_VERSION = 4.0;
 const ACCESS_TOKEN = 'y^e7k8BU3PtMYyHH@kVJR*k^^Zff&*Yk';                    //使用云脚本的token
-const QQ_GROUP = '1145141919';                                              //群号
+const QQ_GROUP = '902447358';                                              //群号
 const COOKIE_PREFIX = "T_HELPER_";                                          //cookie前缀
 
 //字符串宏
 const N = "TXEduHelper";
 const LINE = "-------------------------";
 
-var loadSrc = 'https://hxc-cup.xyz/content/front-js/test.js';                      //要加载的js路径
+var loadSrc = 'https://ret2libc-pwned.github.io/txedu-helper/src/V4/TXEduHelperV4.js';                      //要加载的js路径
 
 var config = {
     name: "Default",
@@ -51,14 +51,13 @@ function loadJs() {
     let mduiSrc = document.createElement('script');
     mduiSrc.src = "https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js";
     void(head.appendChild(mduiSrc));
-
-    // //加载小助手js
-    // let helperSrc = document.createElement('script'); 
-    // helperSrc.src = loadSrc; 
-    // helperSrc.type = 'text/javascript'; 
-    // helperSrc.defer = true;
-    // void(head.appendChild(helperSrc));
     LOG("依赖库加载成功! ");
+    //加载小助手js
+    let helperSrc = document.createElement('script'); 
+    helperSrc.src = loadSrc; 
+    helperSrc.type = 'text/javascript'; 
+    helperSrc.defer = true;
+    void(head.appendChild(helperSrc));
 }
 
 loadJs();

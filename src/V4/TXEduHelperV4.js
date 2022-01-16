@@ -4,7 +4,6 @@
  */
 
 const TXEDU_HELPER_VERSION = 4.0;
-const QQ_GROUP = '1145141919';
 const ASCII_ART = '';
 
 //相关配置
