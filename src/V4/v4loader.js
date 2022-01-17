@@ -187,7 +187,7 @@ function deleteCookie(key) {
  * @description 加载行为
  */
 
-//loadJs();
+loadJs();
 
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
