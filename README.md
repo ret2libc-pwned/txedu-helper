@@ -37,7 +37,7 @@ function auto886(hour, minute, msg) {
      * 
      */
     var hour, minute, msg;
-    var dat = new Date;
+    var dat = new Date();
     if(dat.getHours() == hour && dat.getMinutes() == minute) {
         sendMsg(msg);
         TOAST("消息发送成功!");
