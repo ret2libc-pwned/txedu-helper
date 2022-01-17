@@ -126,14 +126,14 @@ function configEditor() {
     if(confirm("欢迎使用配置编辑器! 点击确定进入配置向导, 点击取消进入JSON数据配置界面.")) {
         alert("向导模式说明: 对于只能开关的功能, true表示开启, false表示关闭");
         //在文本框中显示当前配置
-        config.autoFlowerEnabled = prompt("是否启用自动送花? ", config.autoFlowerEnabled);
-        config.autoAnswerEnabled = prompt("是否启用自动答题? ", config.autoAnswerEnabled);
-        config.defaultAnswer = prompt("请输入自动答题默认选项", config.defaultAnswer);
-        config.autoSignInEnabled = prompt("是否启用自动签到? ", config.autoSignInEnabled);
-        config.autoRespeakEnabled = prompt("是否启用自动复述? (没做完)", config.autoRespeakEnabled);
-        config.autoRespeakTrigger = prompt("请输入自动复述触发所需的次数(没做完)", config.autoRespeakTrigger);
-        config.scanInternal = prompt("请输入脚本扫描页面的频率(ms)", config.scanInternal);
-        config.name = prompt("配置完成. 给这个配置起个名吧!", config.name);
+        config.autoFlowerEnabled = prompt("是否启用自动送花? ", "false");
+        config.autoAnswerEnabled = prompt("是否启用自动答题? ", "false");
+        config.defaultAnswer = prompt("请输入自动答题默认选项", "A");
+        config.autoSignInEnabled = prompt("是否启用自动签到? ", "true");
+        config.autoRespeakEnabled = prompt("是否启用自动复述? (没做完)", "false");
+        config.autoRespeakTrigger = prompt("请输入自动复述触发所需的次数(没做完)", "3");
+        config.scanInternal = prompt("请输入脚本扫描页面的频率(ms)", "5000");
+        config.name = prompt("配置完成. 给这个配置起个名吧!", "My Config");
         writeConfigToCookie();
     } else {
         var jsonCfg = prompt("请输入JSON格式的配置字符串");
