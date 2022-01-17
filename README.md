@@ -1,6 +1,6 @@
 # TXEduHelper V4
 
-[Download](javascript:alert('还没做完呢');)
+使用方法: 复制[这个文件](https://ret2libc-pwned.github.io/txedu-helper/src/V4/v4loader.js)的所有代码, 在腾讯课堂上课页面打开开发者工具(按F12), 选择`Console`(控制台), 粘贴运行代码即可.
 
 ## 新功能
 ### 配置系统
@@ -37,7 +37,7 @@ function auto886(hour, minute, msg) {
      * 
      */
     var hour, minute, msg;
-    var dat = new Date;
+    var dat = new Date();
     if(dat.getHours() == hour && dat.getMinutes() == minute) {
         sendMsg(msg);
         TOAST("消息发送成功!");
