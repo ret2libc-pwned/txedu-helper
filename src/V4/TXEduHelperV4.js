@@ -64,8 +64,10 @@ function sendMsg(str) {
 }
 
 function sendFlower() {
-    flowerBtn.click();
-    LOG("向老师送了一朵花");
+    if(config.autoFlowerEnabled) {
+        flowerBtn.click();
+        LOG("向老师送了一朵花");
+    }
 }
 
 //TODO: 给定选项自动作答选择题的函数
@@ -121,10 +123,7 @@ let helper = setInterval(function() {
     }
 
     //送花功能
-    if(config.autoFlowerEnabled) {
-        sendFlower();
-    }
-
+    sendFlower();
     //***在这里添加你需要循环执行的功能***
 
 }, config.scanInternal);

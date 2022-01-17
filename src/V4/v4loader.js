@@ -149,7 +149,6 @@ function configEditor() {
         showConfig();
     }
     
-    alert("配置成功! 刷新页面后重新加载脚本配置才会生效.")
 }
 
 function exportConfig() {
