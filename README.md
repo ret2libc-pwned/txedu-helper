@@ -1,6 +1,6 @@
 # TXEduHelper V4
 
-[Download](javascript:alert('还没做完呢');)
+使用方法: 复制[这个文件](https://ret2libc-pwned.github.io/txedu-helper/src/V4/v4loader.js)的所有代码, 在腾讯课堂上课页面打开开发者工具(按F12), 选择`Console`(控制台), 粘贴运行代码即可.
 
 ## 新功能
 ### 配置系统
