@@ -221,13 +221,17 @@ function loadJs() {
      * 
      * */
     head = document.getElementsByTagName('head').item(0);
-    //加载小助手js
-    let helperSrc = document.createElement('script'); 
-    helperSrc.src = loadSrc; 
-    helperSrc.type = 'text/javascript'; 
-    helperSrc.defer = true;
-    void(head.appendChild(helperSrc));
-    LOG("云脚本加载成功! 云端脚本版本号: " + TXEDU_HELPER_VERSION);
+    try {
+    	//加载小助手js
+		LOG("loadJs(): Trying to load script...");
+   		let helperSrc = document.createElement('script'); 
+    	helperSrc.src = loadSrc; 
+    	helperSrc.type = 'text/javascript'; 
+    	helperSrc.defer = true;
+    	void(head.appendChild(helperSrc));
+    } catch(e) {
+		LOG("loadJS(): Failed to load cloud script: " + e);
+	}
 }
 
 
