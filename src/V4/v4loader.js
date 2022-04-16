@@ -308,8 +308,6 @@ function repairConfig() {
  * @description 加载行为
  */
 
-loadJS();
-
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
 if(isFirstLoad == null) {
@@ -330,4 +328,10 @@ if(cookieConfig == null) {
     editConfig(cookieConfig);       //写入config
 }
 
-
+try {
+	loadJS();
+} catch(e) {
+	LOG("Load failed, retrying...");
+	Sleep(1000);
+	loadJS();
+}
