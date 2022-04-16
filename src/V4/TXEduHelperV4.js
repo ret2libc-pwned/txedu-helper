@@ -19,6 +19,19 @@ if(SECURE_MODE == true && (typeof(ACCESS_TOKEN) == "undefined" || ACCESS_TOKEN !
     location.reload();
 }
 
+function about() {
+    alert(
+        "关于TXEduHelper\n" + LINE + "\n" +
+        "加载器版本: " + LOADER_VERSION + "\n" +
+        "云端脚本版本: " + TXEDU_HELPER_VERSION + "\n" +
+        "云端脚本镜像源: " + MIRROR_NAME + "\n" +
+        "作者: ret2libc-pwned@github\n" +
+        "官方QQ群: " + QQ_GROUP + "\n" +
+        "当前使用配置: " + config.name + "\n" +
+        LINE 
+    );
+}
+
 //定义页面元素(元素以$开头)
 let $body = document.querySelector(".web");
 let $editor = document.getElementsByClassName("ql-editor ql-blank")[0];
