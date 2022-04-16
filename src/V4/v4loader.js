@@ -4,17 +4,25 @@
  */
 
 //代码阅读须知: 如需自己部署代码, 使用"***"包起来的注释的变量都可以或必须更改. 没包起来的改了也没啥用
-const LOADER_VERSION = "4.0.0";
+const LOADER_VERSION = "4.2.0";
 const ACCESS_TOKEN = 'y^e7k8BU3PtMYyHH@kVJR*k^^Zff&*Yk';                   //使用云脚本的token
-const QQ_GROUP = '902447358';                                              //群号
 const COOKIE_PREFIX = "T_HELPER_";                                         //***cookie前缀***
 
 //字符串宏
-const N = "TXEduHelper";
+const NAME = "TXEduHelper";
 const LINE = "-------------------------";
+const ASCII_ART = `
+####### #     # #######               #     #                                    
+   #     #   #  #       #####  #    # #     # ###### #      #####  ###### #####  
+   #      # #   #       #    # #    # #     # #      #      #    # #      #    # 
+   #       #    #####   #    # #    # ####### #####  #      #    # #####  #    # 
+   #      # #   #       #    # #    # #     # #      #      #####  #      #####  
+   #     #   #  #       #    # #    # #     # #      #      #      #      #   #  
+   #    #     # ####### #####   ####  #     # ###### ###### #      ###### #    # 
+`;
 
-//***云脚本URL***
-var loadSrc = 'https://ret2libc-pwned.github.io/txedu-helper/src/V4/TXEduHelperV4.js';                      //要加载的js路径
+//默认配置json, 用于修复cookie中配置
+const DEFAULT_CONFIG_JSON = '{"name":"Default","autoAnswerEnabled":"false","defaultAnswer":"A","autoSignInEnabled":"true","scanInternal":"5000","autoFlowerEnabled":"false","autoFlowerRate":"1","autoRespeakEnabled":"false","autoRespeakTrigger":"3"}';
 
 var config = {
     name: "Default",
@@ -23,13 +31,33 @@ var config = {
     autoSignInEnabled: true,
     scanInternal: 5000,
     autoFlowerEnabled: false,
+    autoFlowerRate: 1,
     autoRespeakEnabled: false,
     autoRespeakTrigger: 3,
 }
 
+var userFunc = {
+    //用户自定义函数
+    say(str) {
+        if(str == null) return;
+        var dat = new Date();
+        var identifyCode = Math.floor(Math.random() * 10000000) * 114514 + dat.getSeconds();
+        sendMsg(str + `\n--于${dat.toLocaleString()}发送的消息\n(识别码: ${identifyCode})\n(注: 为防止被冒充, 本人使用新一代防伪识别码, 识别码除以114514所得余数为发言中时间的秒数)`);
+    }, 
+    say2(str) {
+        if(str == null) return;
+        var hash = stringHASH(str);
+        sendMsg(`${str}\n(Hash: ${hash})`);
+    },
+    sayBase64(str) {
+        if(str == null) return;
+        sendMsg(`我发送了一条Base64消息: \n${btoa(str)}`);
+    }
+}
+
 var logs = "";  //日志字符串
 
-
+//------------------------------
 //函数定义部分
 //日志及输出函数
 function LOG(str) {
@@ -44,30 +72,6 @@ function LOG(str) {
 }
 
 
-//加载脚本
-function loadJs() {
-    /**
-     * @description 加载js文件(加载mdui, katex, 小助手)
-     * 
-     * */
-    head = document.getElementsByTagName('head').item(0);
-    //加载mdui
-    let mduiLink = document.createElement('link');
-    mduiLink.rel = "stylesheet";
-    mduiLink.href = "https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/css/mdui.min.css";
-    void(head.appendChild(mduiLink));
-    let mduiSrc = document.createElement('script');
-    mduiSrc.src = "https://cdn.jsdelivr.net/npm/mdui@1.0.2/dist/js/mdui.min.js";
-    void(head.appendChild(mduiSrc));
-    LOG("依赖库加载成功! ");
-    //加载小助手js
-    let helperSrc = document.createElement('script'); 
-    helperSrc.src = loadSrc; 
-    helperSrc.type = 'text/javascript'; 
-    helperSrc.defer = true;
-    void(head.appendChild(helperSrc));
-}
-
 function Sleep(time) {
     /**
      * @description 仿C语言Sleep函数, 延迟一段时间
@@ -81,6 +85,15 @@ function Sleep(time) {
     }
 }
 
+function stringHASH(str) {
+    //字符串哈希
+    var res = 0, i;
+    const HASH_MOD = 1e9 + 7, HASH_BASE = 233;
+    for(i = 0; i < str.length; i++) {
+        res = (res * HASH_BASE + str[i].charCodeAt()) % HASH_MOD;
+    }
+    return res;
+}
 
 //配置系统相关函数
 function showConfig() {
@@ -98,6 +111,7 @@ function showConfig() {
         "启用自动答题: " + config.autoAnswerEnabled + "\n" +
         "脚本扫描间隔(ms): " + config.scanInternal + "\n" +
         "启用自动送花: " + config.autoFlowerEnabled + "\n" +
+        "自动送花倍率: " + config.autoFlowerRate + "\n" +
         "启用自动复述: " + config.autoRespeakEnabled + "\n" + 
         "自动复述触发次数: " + config.autoRespeakTrigger + "\n" +
         LINE
@@ -126,14 +140,15 @@ function configEditor() {
     if(confirm("欢迎使用配置编辑器! 点击确定进入配置向导, 点击取消进入JSON数据配置界面.")) {
         alert("向导模式说明: 对于只能开关的功能, true表示开启, false表示关闭");
         //在文本框中显示当前配置
-        config.autoFlowerEnabled = prompt("是否启用自动送花? ", "false");
-        config.autoAnswerEnabled = prompt("是否启用自动答题? ", "false");
-        config.defaultAnswer = prompt("请输入自动答题默认选项", "A");
-        config.autoSignInEnabled = prompt("是否启用自动签到? ", "true");
-        config.autoRespeakEnabled = prompt("是否启用自动复述? (没做完)", "false");
-        config.autoRespeakTrigger = prompt("请输入自动复述触发所需的次数(没做完)", "3");
-        config.scanInternal = prompt("请输入脚本扫描页面的频率(ms)", "5000");
-        config.name = prompt("配置完成. 给这个配置起个名吧!", "My Config");
+        config.autoFlowerEnabled = prompt("是否启用自动送花? ", config.autoFlowerEnabled);
+        config.autoFlowerRate = prompt("请输入自动送花倍率", config.autoFlowerRate);
+        config.autoAnswerEnabled = prompt("是否启用自动答题? ", config.autoAnswerEnabled);
+        config.defaultAnswer = prompt("请输入自动答题默认选项", config.defaultAnswer);
+        config.autoSignInEnabled = prompt("是否启用自动签到? ", config.autoSignInEnabled);
+        config.autoRespeakEnabled = prompt("是否启用自动复述? (没做完)", config.autoRespeakEnabled);
+        config.autoRespeakTrigger = prompt("请输入自动复述触发所需的次数(没做完)", config.autoRespeakTrigger);
+        config.scanInternal = prompt("请输入脚本扫描页面的频率(ms)", config.scanInternal);
+        config.name = prompt("配置完成. 给这个配置起个名吧!", config.name);
         writeConfigToCookie();
     } else {
         var jsonCfg = prompt("请输入JSON格式的配置字符串");
@@ -148,6 +163,8 @@ function configEditor() {
     if(confirm("配置已写入, 点击确定查看配置! ")) {
         showConfig();
     }
+
+    editConfig(exportConfig());     //若数据非法, config被修改. 将cookie中数据写入数组
     
 }
 
@@ -182,11 +199,104 @@ function deleteCookie(key) {
     document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
+function about() {
+    alert(
+        "关于TXEduHelper\n" + LINE + "\n" +
+        "加载器版本: " + LOADER_VERSION + "\n" +
+        "云端脚本版本: " + TXEDU_HELPER_VERSION + "\n" +
+        "云端脚本镜像源: " + MIRROR_NAME + "\n" +
+        "作者: ret2libc-pwned@github\n" +
+        "官方QQ群: " + QQ_GROUP + "\n" +
+        "当前使用配置: " + config.name + "\n" +
+        LINE 
+    );
+}
+
+function sendMsg(str) {
+    /**
+     * @description 发送字符串到聊天区
+     * @param str 要发送的字符串
+     */
+    var str;
+    const bypass_delay = 5;   //修复腾讯课堂发送评论自动消失的问题, 即延迟10ms点击发送
+    $editor.innerText = str;
+    setTimeout("$sendBtn.click()", bypass_delay);
+    LOG("在讨论区发送了一条信息: " + str);
+}
+
+function sendFlower() {
+    //bug fix
+    var speed = parseInt(config.autoFlowerRate);
+    $flowerBtn.classList.remove("disabled");
+    $flowerBtn.click();
+    var i = 0;
+    LOG("自动送花: 正在点击送花按钮...");
+    for(i = 0; i < speed; i++) {
+        //$flowerBtn.classList.remove("disabled");
+        $flowerBtn.click();
+    }
+    LOG("自动送花: 执行了" + speed + "次送花");
+}
+
+function autoRespeak() {
+    /*
+     * @description 自动复述
+     */
+
+    alert("没做完.");
+}
+
+function showMenu() {
+    let input = prompt("TXEduHelper功能菜单(输入数字进入对应功能页面)\n" + 
+                        LINE + "\n" +
+                        "1. 配置编辑器\n" +
+                        "2. 查看当前配置信息\n" +
+                        "3. 自定义发送消息(支持转义字符)\n" +
+                        "4. 关于TXEduHelper\n" +
+                        LINE + "\n");
+    
+    switch(input) {
+        case "1":
+            configEditor();
+            break;
+        case "2":
+            showConfig();
+            break;
+        case "3":
+            userFunc.say(prompt("请输入要发送的消息"));
+            break;
+        case "4":
+            about();
+            break;
+        case "dbg":
+            var cmd;
+            while(cmd != "exit") {
+                cmd = prompt("TXEduHelper Debug Prompt (Type exit to quit)");
+                eval(cmd);
+            }
+            break;
+        case null:
+            return;
+        default:
+            showMenu();
+    }
+}
+
+function repairConfig() {
+    //修复脚本配置
+    if(confirm("TXEduHelper配置修复系统\n警告: 该操作会将配置重置为默认, 是否继续?")) {
+        editConfig(DEFAULT_CONFIG_JSON);
+        writeConfigToCookie();
+        alert("修复成功! \n" + LINE + "\n" + getCookie(COOKIE_PREFIX + "config"));
+        if(confirm("是否打开配置编辑器? ")) {
+            configEditor();
+        }
+    }
+}
+
 /**
  * @description 加载行为
  */
-
-loadJs();
 
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
@@ -195,7 +305,7 @@ if(isFirstLoad == null) {
     alert("这好像是你第一次加载这个脚本, 不妨先配置一下吧...");
     configEditor();
     alert("配置已经完成了, 欢迎使用TXEduHelper!");
-    document.cookie = COOKIE_PREFIX + "isOldUser=no";
+    document.cookie = COOKIE_PREFIX + "isOldUser=yes";          //老用户尊贵标识
 }
 
 //自动使用cookie的配置
@@ -205,6 +315,7 @@ if(cookieConfig == null) {
     configEditor();
 } else {
     //如果cookie中有配置
-    editConfig(cookieConfig);
+    editConfig(cookieConfig);       //写入config
 }
+
 
