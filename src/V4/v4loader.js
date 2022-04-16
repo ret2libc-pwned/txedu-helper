@@ -212,6 +212,22 @@ function about() {
     );
 }
 
+function loadJs() {
+    /**
+     * @description 加载js文件(加载mdui, katex, 小助手)
+     * 
+     * */
+    head = document.getElementsByTagName('head').item(0);
+    //加载小助手js
+    let helperSrc = document.createElement('script'); 
+    helperSrc.src = loadSrc; 
+    helperSrc.type = 'text/javascript'; 
+    helperSrc.defer = true;
+    void(head.appendChild(helperSrc));
+    LOG("云脚本加载成功! 云端脚本版本号: " + TXEDU_HELPER_VERSION);
+}
+
+
 function sendMsg(str) {
     /**
      * @description 发送字符串到聊天区
@@ -297,6 +313,8 @@ function repairConfig() {
 /**
  * @description 加载行为
  */
+
+loadJS();
 
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
