@@ -24,6 +24,9 @@ const ASCII_ART = `
 //默认配置json, 用于修复cookie中配置
 const DEFAULT_CONFIG_JSON = '{"name":"Default","autoAnswerEnabled":"false","defaultAnswer":"A","autoSignInEnabled":"true","scanInternal":"5000","autoFlowerEnabled":"false","autoFlowerRate":"1","autoRespeakEnabled":"false","autoRespeakTrigger":"3"}';
 
+//***云脚本URL***
+var loadSrc = 'https://ret2libc-pwned.github.io/txedu-helper/src/V4/TXEduHelperV4.js';                      //要加载的js路径
+
 var config = {
     name: "Default",
     autoAnswerEnabled: false,
