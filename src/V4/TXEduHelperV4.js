@@ -35,9 +35,8 @@ $title.innerText = `TXEduHelper Core ${TXEDU_HELPER_VERSION}`;             //***
 $title.style = 'position:absolute;top:21px;left:600px;color:#33FF66;border-radius:10px;cursor:pointer;z-index:3000';    //***标题样式***
 void($body.appendChild($title));
 
-if(!DEBUG_MODE) clear();
 console.log(ASCII_ART);
-LOG("脚本主程序加载成功! ");
+LOG("脚本云端主程序加载成功! 版本号: " + TXEDU_HELPER_VERSION);
 
 let helper = setInterval(function() {
     //小助手脚本主体
