@@ -9,7 +9,8 @@ const TXEDU_HELPER_VERSION = "4.2.0";
 const DEBUG_MODE = false;                //调试模式开关(暂时没啥用)
 const SECURE_MODE = false;              //安全模式开关(开启后需要验证token)            
 const VERIFY_TOKEN = 'y^e7k8BU3PtMYyHH@kVJR*k^^Zff&*Yk';    //安全模式的token
-const MIRROR_NAME = 'Github';           //镜像源名称
+const MIRROR_NAME = 'Github Official (github@ret2libc)';           //镜像源名称
+const QQ_GROUP = '902447358';                                              //群号
 
 //检查access token
 if(SECURE_MODE == true && (typeof(ACCESS_TOKEN) == "undefined" || ACCESS_TOKEN != VERIFY_TOKEN)) {
