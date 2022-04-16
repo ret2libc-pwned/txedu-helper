@@ -202,19 +202,6 @@ function deleteCookie(key) {
     document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
-function about() {
-    alert(
-        "关于TXEduHelper\n" + LINE + "\n" +
-        "加载器版本: " + LOADER_VERSION + "\n" +
-        "云端脚本版本: " + TXEDU_HELPER_VERSION + "\n" +
-        "云端脚本镜像源: " + MIRROR_NAME + "\n" +
-        "作者: ret2libc-pwned@github\n" +
-        "官方QQ群: " + QQ_GROUP + "\n" +
-        "当前使用配置: " + config.name + "\n" +
-        LINE 
-    );
-}
-
 function loadJs() {
     /**
      * @description 加载js文件(加载mdui, katex, 小助手)
