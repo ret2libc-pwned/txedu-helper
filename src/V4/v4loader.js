@@ -65,7 +65,6 @@ function LOG(str) {
     logs += (tmp + '\n');
 }
 
-
 function Sleep(time) {
     /**
      * @description 仿C语言Sleep函数, 延迟一段时间
@@ -193,24 +192,6 @@ function deleteCookie(key) {
     document.cookie = key + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
 }
 
-function loadJs() {
-    /**
-     * @description 加载js文件
-     * 
-     * */
-    head = document.getElementsByTagName('head').item(0);
-    try {
-    	//加载小助手js
-		LOG("loadJs(): Trying to load script...");
-   		let helperSrc = document.createElement('script'); 
-    	helperSrc.src = loadSrc; 
-    	helperSrc.type = 'text/javascript'; 
-    	helperSrc.defer = true;
-    	void(head.appendChild(helperSrc));
-    } catch(e) {
-		LOG("loadJS(): Failed to load cloud script: " + e);
-	}
-}
 
 function repairConfig() {
     //修复脚本配置
@@ -227,6 +208,19 @@ function repairConfig() {
 /**
  * @description 加载行为
  */
+
+head = document.getElementsByTagName('head').item(0);
+try {
+   	//加载小助手js
+	LOG("JSLoader: Trying to load script...");
+	let helperSrc = document.createElement('script'); 
+	helperSrc.src = loadSrc; 
+   	helperSrc.type = 'text/javascript'; 
+   	helperSrc.defer = true;
+   	void(head.appendChild(helperSrc));
+} catch(e) {
+	LOG("JSLoader: Failed to load cloud script: " + e);
+}
 
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
@@ -246,13 +240,4 @@ if(cookieConfig == null) {
 } else {
     //如果cookie中有配置
     editConfig(cookieConfig);       //写入config
-}
-
-try {
-	Sleep(500);
-	loadJS();
-} catch(e) {
-	LOG("Load failed, retrying...");
-	Sleep(1000);
-	loadJS();
 }
