@@ -4,6 +4,16 @@
  */
 
 const TXEDU_HELPER_VERSION = "4.2.0";
+const ASCII_ART = `
+####### #     # #######               #     #                                    
+   #     #   #  #       #####  #    # #     # ###### #      #####  ###### #####  
+   #      # #   #       #    # #    # #     # #      #      #    # #      #    # 
+   #       #    #####   #    # #    # ####### #####  #      #    # #####  #    # 
+   #      # #   #       #    # #    # #     # #      #      #####  #      #####  
+   #     #   #  #       #    # #    # #     # #      #      #      #      #   #  
+   #    #     # ####### #####   ####  #     # ###### ###### #      ###### #    # 
+`;
+
 
 //***相关配置***
 const DEBUG_MODE = false;                //调试模式开关(暂时没啥用)
@@ -30,6 +40,76 @@ function about() {
         "当前使用配置: " + config.name + "\n" +
         LINE 
     );
+}
+
+function sendMsg(str) {
+    /**
+     * @description 发送字符串到聊天区
+     * @param str 要发送的字符串
+     */
+    var str;
+    const bypass_delay = 5;   //修复腾讯课堂发送评论自动消失的问题, 即延迟10ms点击发送
+    $editor.innerText = str;
+    setTimeout("$sendBtn.click()", bypass_delay);
+    LOG("在讨论区发送了一条信息: " + str);
+}
+
+function sendFlower() {
+    //bug fix
+    var speed = parseInt(config.autoFlowerRate);
+    $flowerBtn.classList.remove("disabled");
+    $flowerBtn.click();
+    var i = 0;
+    LOG("自动送花: 正在点击送花按钮...");
+    for(i = 0; i < speed; i++) {
+        //$flowerBtn.classList.remove("disabled");
+        $flowerBtn.click();
+    }
+    LOG("自动送花: 执行了" + speed + "次送花");
+}
+
+function autoRespeak() {
+    /*
+     * @description 自动复述
+     */
+
+    alert("没做完.");
+}
+
+function showMenu() {
+    let input = prompt("TXEduHelper功能菜单(输入数字进入对应功能页面)\n" + 
+                        LINE + "\n" +
+                        "1. 配置编辑器\n" +
+                        "2. 查看当前配置信息\n" +
+                        "3. 自定义发送消息(支持转义字符)\n" +
+                        "4. 关于TXEduHelper\n" +
+                        LINE + "\n");
+    
+    switch(input) {
+        case "1":
+            configEditor();
+            break;
+        case "2":
+            showConfig();
+            break;
+        case "3":
+            userFunc.say(prompt("请输入要发送的消息"));
+            break;
+        case "4":
+            about();
+            break;
+        case "dbg":
+            var cmd;
+            while(cmd != "exit") {
+                cmd = prompt("TXEduHelper Debug Prompt (Type exit to quit)");
+                eval(cmd);
+            }
+            break;
+        case null:
+            return;
+        default:
+            showMenu();
+    }
 }
 
 //定义页面元素(元素以$开头)
