@@ -208,11 +208,12 @@ function repairConfig() {
 /**
  * @description 加载行为
  */
+clear();
 
+//加载小助手云端主程序js
 head = document.getElementsByTagName('head').item(0);
+LOG("JSLoader: Trying to load script...");
 try {
-   	//加载小助手js
-	LOG("JSLoader: Trying to load script...");
 	let helperSrc = document.createElement('script'); 
 	helperSrc.src = loadSrc; 
    	helperSrc.type = 'text/javascript'; 
@@ -221,6 +222,7 @@ try {
 } catch(e) {
 	LOG("JSLoader: Failed to load cloud script: " + e);
 }
+LOG("JSLoader: Load success! Welcome to use TXEduHelper!");
 
 //第一次加载
 var isFirstLoad = getCookie(COOKIE_PREFIX + "isOldUser");
