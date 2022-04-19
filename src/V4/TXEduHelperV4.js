@@ -49,7 +49,7 @@ function sendMsg(str) {
      */
     var str;
     const bypass_delay = 5;   //修复腾讯课堂发送评论自动消失的问题, 即延迟10ms点击发送
-    $editor.innerText = str;
+    $editor.innerText = str + '\x00';		//bug fix: 修复空字符串无法发送的问题
     setTimeout("$sendBtn.click()", bypass_delay);
     LOG("在讨论区发送了一条信息: " + str);
 }
