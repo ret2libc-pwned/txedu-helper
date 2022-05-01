@@ -128,6 +128,10 @@ $title.innerText = `TXEduHelper Core ${TXEDU_HELPER_VERSION}`;             //***
 $title.style = 'position:absolute;top:21px;left:600px;color:#33FF66;border-radius:10px;cursor:pointer;z-index:3000';    //***标题样式***
 void($body.appendChild($title));
 
+alert("该脚本不再更新, 请打开控制台获取更多信息!");
+console.log(`%c警告: 该脚本不再更新！！！`, "color: #cc0000; background: #FFFFFF; font-size: 80px");
+console.log("TXEduHelper: 如需继续使用请fork本项目, 在TXEduHelper.js中注释掉相关代码！！！");
+
 console.log(ASCII_ART);
 LOG("脚本云端主程序加载成功! 版本号: " + TXEDU_HELPER_VERSION);
 
