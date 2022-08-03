@@ -1,5 +1,3 @@
-<div style="color: #cc0000; background: #FFFFFF; font-size: 30">该项目不再更新, 如需继续使用请fork本项目, 在TXEduHelper.js中注释掉相关代码！！！</div>
-
 # TXEduHelper V4
 
 使用方法: 复制[这个文件](https://ret2libc-pwned.github.io/txedu-helper/src/V4/v4loader.js)的所有代码, 在腾讯课堂上课页面打开开发者工具(按F12), 选择`Console`(控制台), 粘贴运行代码即可.
