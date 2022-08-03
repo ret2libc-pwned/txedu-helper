@@ -3,7 +3,7 @@
  * @description TXEduHelper V4主程序代码, 放在服务器端供调用
  */
 
-const TXEDU_HELPER_VERSION = "4.2.0";
+const TXEDU_HELPER_VERSION = "4.2.1";
 const ASCII_ART = `
 ####### #     # #######               #     #                                    
    #     #   #  #       #####  #    # #     # ###### #      #####  ###### #####  
@@ -128,9 +128,8 @@ $title.innerText = `TXEduHelper Core ${TXEDU_HELPER_VERSION}`;             //***
 $title.style = 'position:absolute;top:21px;left:600px;color:#33FF66;border-radius:10px;cursor:pointer;z-index:3000';    //***标题样式***
 void($body.appendChild($title));
 
-alert("该脚本不再更新, 请打开控制台获取更多信息!");
-console.log(`%c警告: 该脚本不再更新！！！`, "color: #cc0000; background: #FFFFFF; font-size: 80px");
-console.log("TXEduHelper: 如需继续使用请fork本项目, 在TXEduHelper.js中注释掉相关代码！！！");
+console.log("TXEduHelper: 友情提示：由于作者个人原因，该脚本可能不会进行漏洞修复之外的功能更新，同时不保证能在最新版腾讯课堂网页端正常使用．欢迎fork本项目自行部署修改！");
+console.log("TXEduHelper: 云端最新脚本已经正常加载，希望它能在可能短暂的生命周期内继续陪伴网课中的你．感谢你长期以来的陪伴！");
 
 console.log(ASCII_ART);
 LOG("脚本云端主程序加载成功! 版本号: " + TXEDU_HELPER_VERSION);
@@ -176,9 +175,9 @@ let helper = setInterval(function() {
     }
 
     //送花功能
-    if(config.autoFlowerEnabled == 'true') {
+    if(config.autoFlowerEnabled) {
         sendFlower();
     }
 
     //***在这里添加你需要循环执行的功能***
-}, parseInt(config.scanInternal));
+}, config.scanInternal);

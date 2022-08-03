@@ -4,7 +4,7 @@
  */
 
 //代码阅读须知: 如需自己部署代码, 使用"***"包起来的注释的变量都可以或必须更改. 没包起来的改了也没啥用
-const LOADER_VERSION = "4.2.0";
+const LOADER_VERSION = "4.2.1";
 const ACCESS_TOKEN = 'y^e7k8BU3PtMYyHH@kVJR*k^^Zff&*Yk';                   //使用云脚本的token
 const COOKIE_PREFIX = "T_HELPER_";                                         //***cookie前缀***
 
@@ -32,6 +32,7 @@ var config = {
 
 var userFunc = {
     //用户自定义函数
+    //这是几个示例，方便用户们熟悉脚本的函数接口以便二次开发 ：-）
     say(str) {
         if(str == null) return;
         var dat = new Date();
@@ -78,6 +79,33 @@ function Sleep(time) {
     }
 }
 
+function initConfig() {
+    /**
+     * @description 初始化config对象，即将config对象里所有字符串转换成各自的类型．
+     * @note 请在修改config后务必执行此函数！！！以防类型错误出现的问题！
+     */
+    //bug fix 20220803: 紧急修复类型问题
+    const fixBool = ['autoAnswerEnabled', 'autoFlowerEnabled', 'autoRespeakEnabled', 'autoSignInEnabled'], fixInt = ['scanInternal', 'autoFlowerRate', 'autoRespeakTrigger'];
+    for(i in fixBool) {
+        eval(`
+            let _fixbool_obj = config.${fixBool[i]};
+            if(typeof(_fixbool_obj) === 'string') {
+                let _fixbool_res = _fixbool_obj.toBool();
+                config.${fixBool[i]} = _fixbool_res;
+            }
+        `);
+    }
+    for(i in fixInt) {
+        eval(`
+            let _fixint_obj = config.${fixInt[i]};
+            if(typeof(_fixint_obj) === 'string') {
+                let _fixint_res = _fixint_obj.toInt();
+                config.${fixInt[i]} = _fixint_res;
+            }
+        `);
+    }
+}
+
 function stringHASH(str) {
     //字符串哈希
     var res = 0, i;
@@ -87,6 +115,19 @@ function stringHASH(str) {
     }
     return res;
 }
+
+//String继承类, 方便类型转换
+String.prototype.toBool = function() { 
+    return (/^true$/i).test(this); 
+};
+
+String.prototype.toInt = function() {
+    return parseInt(this);
+};
+
+String.prototype.toFloat = function() {
+    return parseFloat(this);
+};
 
 //配置系统相关函数
 function showConfig() {
@@ -124,6 +165,7 @@ function editConfig(str) {
      */
     var str;
     config = JSON.parse(str);
+    initConfig();           //bug fix
 }
 
 function configEditor() {
@@ -142,6 +184,7 @@ function configEditor() {
         config.autoRespeakTrigger = prompt("请输入自动复述触发所需的次数(没做完)", config.autoRespeakTrigger);
         config.scanInternal = prompt("请输入脚本扫描页面的频率(ms)", config.scanInternal);
         config.name = prompt("配置完成. 给这个配置起个名吧!", config.name);
+        initConfig();               //bug fix：同样地, prompt会将输入看作字符串，也需要初始化config进行类型转换！
         writeConfigToCookie();
     } else {
         var jsonCfg = prompt("请输入JSON格式的配置字符串");
