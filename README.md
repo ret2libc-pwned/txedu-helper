@@ -1,5 +1,7 @@
 # TXEduHelper V4
 
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 使用方法: 复制[这个文件](https://ret2libc-pwned.github.io/txedu-helper/src/V4/v4loader.js)的所有代码, 在腾讯课堂上课页面打开开发者工具(按F12), 选择`Console`(控制台), 粘贴运行代码即可.
 
 ## 新功能
@@ -52,3 +54,5 @@ setInterval("auto886(18, 30, '下课了, 老师再见!\n来自TXEduHelper的消�
 
 ## 特点
 TXEduHelper**永久免费**! 希望给大家带来更好的上课体验!
+
+本站总访问量<span id="busuanzi_value_site_pv"></span>次，访客数<span id="busuanzi_value_site_uv"></span>人次。
