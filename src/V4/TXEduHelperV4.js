@@ -128,6 +128,9 @@ $title.innerText = `TXEduHelper Core ${TXEDU_HELPER_VERSION}`;             //***
 $title.style = 'position:absolute;top:21px;left:600px;color:#33FF66;border-radius:10px;cursor:pointer;z-index:3000';    //***标题样式***
 void($body.appendChild($title));
 
+alert("该项目不再更新！");
+window.location.reload();
+
 console.log("TXEduHelper: 友情提示：由于作者个人原因，该脚本可能不会进行漏洞修复之外的功能更新，同时不保证能在最新版腾讯课堂网页端正常使用．欢迎fork本项目自行部署修改！");
 console.log("TXEduHelper: 云端最新脚本已经正常加载，希望它能在可能短暂的生命周期内继续陪伴网课中的你．感谢你长期以来的陪伴！");
 
