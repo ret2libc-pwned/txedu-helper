@@ -251,6 +251,10 @@ function repairConfig() {
 /**
  * @description 加载行为
  */
+
+console.error("该项目不再更新！");
+window.location.reload();
+
 clear();
 
 //加载小助手云端主程序js
